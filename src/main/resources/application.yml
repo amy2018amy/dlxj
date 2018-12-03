@@ -1,0 +1,69 @@
+#######################
+#### ===公共配置===
+#######################
+server:
+  port: 8088
+  tomcat:
+    uri-encoding: utf-8
+#  servlet:
+#    context-path: /bootdo
+
+#######################
+#### ===spring===
+#######################
+spring:
+  # 激活哪一个环境的配置文件
+  profiles:
+    active: dev
+  # thymeleaf 相关配置
+  thymeleaf:
+    encoding: UTF-8
+    # 配置模板路径
+    prefix: classpath:/templates/
+    suffix: .html
+    servlet:
+      content-type: text/html
+    # 校验模板 ： LEGACYHTML5.可以使HTML5中没有封闭标签带来的错误 需要引入net.sourceforge.nekohtml
+    mode: LEGACYHTML5
+  # 数据源配置
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/dlxj?useUnicode=true&characterEncoding=utf8
+    username: root
+    password: accp
+    initialSize: 1
+    minIdle: 3
+    maxActive: 20
+    # 配置获取连接等待超时的时间
+    maxWait: 60000
+    # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+    timeBetweenEvictionRunsMillis: 60000
+    # 配置一个连接在池中最小生存的时间，单位是毫秒
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: SELECT 1 FROM DUAL
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    # 打开PSCache，并且指定每个连接上PSCache的大小
+    poolPreparedStatements: true
+    #   配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+    filters: stat,wall,slf4j
+    maxPoolPreparedStatementPerConnectionSize: 20
+    # 合并多个DruidDataSource的监控数据
+    #    useGlobalDataSourceStat: true
+    # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+
+#######################
+#### ===mybatis===
+#######################
+mybatis:
+  # 指定全局配置文件位置
+  config-location: classpath:dao/mybatis/mybatis-config.xml
+  # 指定sql映射文件位置
+  mapper-locations: classpath:dao/mybatis/mapper/*Mapper.xml
+  # 给实体类取别名
+  type-aliases-package: com.az.dlxj.*.domain
+
+

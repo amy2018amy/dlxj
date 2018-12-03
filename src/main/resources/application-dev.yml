@@ -1,0 +1,30 @@
+#######################
+#### ===spring===
+#######################
+spring:
+  devtools:
+    restart:
+      # 设置需要排除的文件
+      exclude: static/**,public/**
+      # 热部署生效
+      enabled: true
+      # 设置重启的目录,添加那个目录的文件需要restart
+      additional-paths: src/main/java
+  thymeleaf:
+    # 开发配置为false,避免修改模板还要重启服务器
+    cache: false
+
+#######################
+#### ===logging===
+#######################
+logging:
+  config: classpath:log/logback.xml
+  # 日志路径
+  path: E:\log\bootdo
+
+#######################
+#### ===swagger2===
+#######################
+swagger:
+  # 开启swagger功能
+  enable: true
