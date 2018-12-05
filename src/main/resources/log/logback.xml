@@ -176,7 +176,7 @@
 
     <logger name="org.springframework.web" level="info"/>
     <logger name="org.springframework.scheduling.annotation.ScheduledAnnotationBeanPostProcessor" level="INFO"/>
-    <logger name="com.az.bootdo" level="debug"/>
+    <logger name="com.az.dlxj" level="debug"/>
 
     <!--开发环境:打印控制台-->
     <springProfile name="dev">

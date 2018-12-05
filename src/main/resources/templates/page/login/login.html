@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html class="loginHtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+	<title>登录</title>
+	<meta name="renderer" content="webkit">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="format-detection" content="telephone=no">
+	<link rel="icon" th:href="@{/favicon.ico}" href="../../favicon.ico">
+	<link rel="stylesheet" th:href="@{/layui/css/layui.css}" href="../../layui/css/layui.css" media="all" />
+	<link rel="stylesheet" th:href="@{/css/public.css}" href="../../css/public.css" media="all" />
+</head>
+<body class="loginBody">
+	<form id="signupForm" class="layui-form">
+		<div class="login_face"><img th:src="@{/images/face.jpg}" src="../../images/face.jpg" class="userAvatar"></div>
+		<div class="layui-form-item input-item">
+			<label for="userName">用户名</label>
+			<input name="userName" type="text" placeholder="请输入用户名" autocomplete="off" id="userName" class="layui-input" lay-verify="required">
+		</div>
+		<div class="layui-form-item input-item">
+			<label for="password">密码</label>
+			<input name="password" type="password" placeholder="请输入密码" autocomplete="off" id="password" class="layui-input" lay-verify="required">
+		</div>
+		<div class="layui-form-item input-item" id="imgCode">
+			<label for="code">验证码</label>
+			<input name="checkCode" type="text" placeholder="请输入验证码" autocomplete="off" id="code" class="layui-input">
+			<img src="../../images/code.jpg">
+		</div>
+		<div class="layui-form-item">
+			<button class="layui-btn layui-block" lay-filter="login" lay-submit>登录</button>
+		</div>
+		<div class="layui-form-item layui-row">
+			<a href="javascript:;" class="seraph icon-qq layui-col-xs4 layui-col-sm4 layui-col-md4 layui-col-lg4"></a>
+			<a href="javascript:;" class="seraph icon-wechat layui-col-xs4 layui-col-sm4 layui-col-md4 layui-col-lg4"></a>
+			<a href="javascript:;" class="seraph icon-sina layui-col-xs4 layui-col-sm4 layui-col-md4 layui-col-lg4"></a>
+		</div>
+	</form>
+
+	<script th:inline="javascript"> var ctx = [[@{/}]] ; </script>
+	<!-- 全局js -->
+	<script type="text/javascript" th:src="@{/webjars/jquery/3.3.1-1/jquery.min.js}"></script>
+	<script type="text/javascript" th:src="@{/az/js/ajaxUtil.js}"></script>
+
+	<script type="text/javascript" th:src="@{/layui/layui.js}" src="../../layui/layui.js"></script>
+	<script type="text/javascript" th:src="@{/page/login.js}" src="../../page/login.js"></script>
+	<script type="text/javascript" th:src="@{/js/cache.js}" src="../../js/cache.js"></script>
+
+</body>
+</html>
