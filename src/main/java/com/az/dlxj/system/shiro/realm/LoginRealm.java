@@ -2,24 +2,18 @@ package com.az.dlxj.system.shiro.realm;
 
 import com.az.dlxj.system.domain.User;
 import com.az.dlxj.system.service.UserService;
-import com.az.dlxj.system.util.Constants;
-import com.google.common.base.Objects;
 import org.apache.shiro.authc.*;
-import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
+import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
-import org.apache.shiro.subject.SimplePrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -28,7 +22,7 @@ import java.util.Set;
  * @Create : 2018-12-05 17:27
  * @Desc :
  */
-@Component
+//@Component
 public class LoginRealm extends AuthorizingRealm {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -52,24 +46,26 @@ public class LoginRealm extends AuthorizingRealm {
 
         // 2.调用数据库的方法，从数据库中查询对应的记录
         User user = userService.getUserByUserName(username);
-//        password = new SimpleHash("md5", password, ByteSource.Util.bytes(user.getSalt()),1024).toHex();
 
         // 3.根据用户的情况抛出AuthenticationException或其子类
+        password = new SimpleHash("md5", password, ByteSource.Util.bytes(user.getSalt()),1024).toHex();
+
         // 账号不存在
         if (user == null) { throw new UnknownAccountException("账号或密码不正确"); }
         // 密码错误
-//        if (!password.equals(user.getPassword())) {  throw new IncorrectCredentialsException("账号或密码不正确"); }
+        if (!password.equals(user.getPassword())) {  throw new IncorrectCredentialsException("账号或密码不正确"); }
         // 账号锁定
         if (2 == user.getState()) { throw new LockedAccountException("账号已被锁定,请联系管理员！"); }
 
 //        byte[] salt = Encodes.decodeHex(user.getSalt());
 //        ShiroUser u = new ShiroUser(user.getId(), user.getUsername(), user.getNickName(), user.getIcon());
 //        // 4.根据用户情况，构建AuthenticationInfo并返回
-        Object principal = user;// 认证的实体信息，可以是username，也可是user（用户名）
-        Object credentials = user.getPassword();// 凭证（密码）
-        String realmName = getName();// 当前realm对象的name ， 调用父类的getName即可
+//        Object principal = user;// 认证的实体信息，可以是username，也可是user（用户名）
+//        Object credentials = user.getPassword();// 凭证（密码）
+//        String realmName = getName();// 当前realm对象的name ， 调用父类的getName即可
         ByteSource credentialsSalt = ByteSource.Util.bytes(user.getSalt());// 盐值
-        SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(principal, credentials, credentialsSalt, realmName);
+//        SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(principal, credentials, credentialsSalt, realmName);
+        SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(user, password, credentialsSalt,getName());
         logger.debug(info.getCredentials().toString());
         logger.debug(info.getCredentialsSalt().toString());
         logger.info("---------------结束认证-----------------");
@@ -119,93 +115,16 @@ public class LoginRealm extends AuthorizingRealm {
         logger.info("---------------结束授权-----------------");
         return info;
     }
+    public static void main(String[] args) {
+        String hashAlgorithmName = "MD5";
+        Object credentials = "admin";
+        Object salt = ByteSource.Util.bytes("az");;
+        int hashIterations = 1024;
 
-    // 清除用户授权信息
-    public void removeUserAuthorizationInfoCache(String username) {
-        SimplePrincipalCollection pc = new SimplePrincipalCollection();
-        pc.add(username, super.getName());
-        super.clearCachedAuthorizationInfo(pc);
-    }
-    /**
-     * 设定Password校验的Hash算法与迭代次数.
-     * servlet init 之前执行.
-     */
-    @PostConstruct
-    public void initCredentialsMatcher() {
-
-        HashedCredentialsMatcher matcher = new HashedCredentialsMatcher(Constants.HASH_ALGORITHM);
-        matcher.setHashIterations(Constants.HASH_INTERATIONS);
-        setCredentialsMatcher(matcher);
+        Object result = new SimpleHash(hashAlgorithmName, credentials, salt, hashIterations);
+        System.out.println(result);
     }
 
-    /**
-     * 自定义Authentication对象，使得Subject除了携带用户的登录名外还可以携带更多信息.
-     */
-    public static class ShiroUser implements Serializable {
-        private static final long serialVersionUID = -1373760761780840081L;
-        public Integer id;
-        public String loginName;
-        public String nickName;
-        public String icon;
-
-        public ShiroUser(Integer id, String loginName, String nickName,String icon) {
-            this.id = id;
-            this.loginName = loginName;
-            this.nickName = nickName;
-            this.icon=icon;
-        }
-
-        public String getloginName() {
-            return loginName;
-        }
-        public String getNickName() {
-            return nickName;
-        }
-        public String getIcon() {
-            return icon;
-        }
-        public Integer getId() {
-            return id;
-        }
-
-
-
-        /**
-         * 本函数输出将作为默认的<shiro:principal/>输出.
-         */
-        @Override
-        public String toString() {
-            return nickName;
-        }
-
-        /**
-         * 重载hashCode,只计算loginName;
-         */
-        @Override
-        public int hashCode() {
-            return Objects.hashCode(loginName);
-        }
-
-        /**
-         * 重载equals,只计算loginName;
-         */
-        @Override
-        public boolean equals(Object obj) {
-            if (this == obj) {
-                return true;
-            }
-            if (obj == null) {
-                return false;
-            }
-            if (getClass() != obj.getClass()) {
-                return false;
-            }
-            ShiroUser other = (ShiroUser) obj;
-            if (loginName == null) {
-                return other.loginName == null;
-            } else return loginName.equals(other.loginName);
-        }
-    }
 
 
 }

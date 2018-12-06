@@ -1,6 +1,8 @@
 package com.az.dlxj.system.shiro;
 
+import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
 import com.az.dlxj.system.shiro.realm.LoginRealm;
+import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
@@ -163,5 +165,35 @@ public class ShiroConfig {
         filterRegistrationBean.setFilter(proxy);
         filterRegistrationBean.setDispatcherTypes(DispatcherType.ERROR,DispatcherType.REQUEST,DispatcherType.FORWARD,DispatcherType.INCLUDE);
         return filterRegistrationBean;
+    }
+    // 配置加密匹配，使用MD5的方式，进行1024次加密
+    @Bean
+    public HashedCredentialsMatcher hashedCredentialsMatcher() {
+        logger.info("=============ShiroConfig.hashedCredentialsMatcher()..");
+        HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher();
+        hashedCredentialsMatcher.setHashAlgorithmName("MD5");// 散列算法:这里使用MD5算法;
+        hashedCredentialsMatcher.setHashIterations(1024);// 加密次数
+        return hashedCredentialsMatcher;
+    }
+    // thymeleaf使用shiro标签
+    @Bean
+    public ShiroDialect shiroDialect() {
+        return new ShiroDialect();
+    }
+    @Bean
+    public LoginRealm loginRealm(){
+        LoginRealm loginRealm = new LoginRealm();
+        loginRealm.setCachingEnabled(true);
+        //启用身份验证缓存，即缓存AuthenticationInfo信息，默认false
+        loginRealm.setAuthenticationCachingEnabled(false);
+        //缓存AuthenticationInfo信息的缓存名称 在ehcache-shiro.xml中有对应缓存的配置
+//        loginRealm.setAuthenticationCacheName("authenticationCache");
+        //启用授权缓存，即缓存AuthorizationInfo信息，默认false
+        loginRealm.setAuthorizationCachingEnabled(false);
+        //缓存AuthorizationInfo信息的缓存名称  在ehcache-shiro.xml中有对应缓存的配置
+//        loginRealm.setAuthorizationCacheName("authorizationCache");
+        //配置自定义密码比较器
+        loginRealm.setCredentialsMatcher(hashedCredentialsMatcher());
+        return loginRealm;
     }
 }
