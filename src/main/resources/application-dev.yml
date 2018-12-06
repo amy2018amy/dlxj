@@ -13,7 +13,24 @@ spring:
   thymeleaf:
     # 开发配置为false,避免修改模板还要重启服务器
     cache: false
-
+  ### redis
+  redis:
+    host: localhost
+    port: 6379
+    password:
+    database: 0
+    # 连接超时时间（毫秒）
+    # timeout: 10000
+    jedis:
+      pool:
+        # 连接池中的最大空闲连接
+        max-idle: 10
+        # 连接池中的最小空闲连接
+        min-idle: 5
+        # 连接池最大连接数（使用负值表示没有限制）
+        max-active: 100
+        # 连接池最大阻塞等待时间（使用负值表示没有限制）
+        # max-wait: -1
 #######################
 #### ===logging===
 #######################

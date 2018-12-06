@@ -11,7 +11,7 @@
 
     <!--<typeAliases>-->
         <!--&lt;!&ndash; 实体类别名 &ndash;&gt;-->
-        <!--<package name="com.az.stusys.bean"></package>-->
+        <!--<package name="com.az.dlxj.system.shiro.bean"></package>-->
     <!--</typeAliases>-->
 
 </configuration>

@@ -64,6 +64,6 @@ mybatis:
   # 指定sql映射文件位置
   mapper-locations: classpath:dao/mybatis/mapper/*Mapper.xml
   # 给实体类取别名
-  type-aliases-package: com.az.dlxj.*.domain
+  type-aliases-package: com.az.dlxj.**.domain
 
 

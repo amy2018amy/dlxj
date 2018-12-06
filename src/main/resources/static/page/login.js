@@ -13,15 +13,23 @@ layui.use(['form','layer','jquery'],function(){
     form.on("submit(login)",function(data){
         var btn = $(this);
         btn.text("登录中...").attr("disabled","disabled").addClass("layui-disabled");
+        var index=null;
         $.ajax({
             type: "POST",
             url: ctx+"login",
             data: $('#signupForm').serialize(),
+            beforeSend: function(){
+                index = layer.load(1, {
+                    shade: [0.1, '#fff'] //0.1透明度的白色背景
+                });
+            },
             success: function (r) {
+                layer.close(index);
                 if (r.code == 0) {
                     window.location.href = ctx+"main";
                 } else {
                     layer.msg(r.msg);
+                    $("#checkCodeImg").click();
                     btn.text("登录").removeAttr("disabled").removeClass("layui-disabled");
                 }
             },
@@ -29,7 +37,14 @@ layui.use(['form','layer','jquery'],function(){
 
         return false;
     })
-    //表单输入效果
+
+    // 切换验证码
+    $("#checkCodeImg").on('click',function(){
+        var t = Math.random();
+        $(this)[0].src=ctx+"genCaptcha?t="+t;
+    });
+
+    // 表单输入效果
     $(".loginBody .input-item").click(function(e){
         e.stopPropagation();
         $(this).addClass("layui-input-focus").find(".layui-input").focus();
