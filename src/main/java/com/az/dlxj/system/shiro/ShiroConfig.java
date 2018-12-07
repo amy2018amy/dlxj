@@ -1,6 +1,7 @@
 package com.az.dlxj.system.shiro;
 
 import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
+import com.az.dlxj.system.shiro.config.CaptchaFormAuthenticationFilter;
 import com.az.dlxj.system.shiro.realm.LoginRealm;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.mgt.SecurityManager;

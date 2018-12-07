@@ -6,5 +6,10 @@
         select * from sys_role;
     </select>
 
+    <select id="getRoleStrByUserId" resultType="string">
+        SELECT DISTINCT r.name FROM `sys_role` r
+            LEFT JOIN `sys_user_role` ur ON ur.`user_id` = r.id
+            WHERE ur.`user_id`=#{id}
+    </select>
 
 </mapper>

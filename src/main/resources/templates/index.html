@@ -20,7 +20,7 @@
 		<!-- 顶部 -->
 		<div class="layui-header header">
 			<div class="layui-main mag0">
-				<a href="#" class="logo">layuiCMS 2.0</a>
+				<a th:href="@{/main}" href="#" class="logo">电力巡检系统</a>
 				<!-- 显示/隐藏菜单 -->
 				<a href="javascript:;" class="seraph hideMenu icon-caidan"></a>
 
@@ -64,7 +64,7 @@
 							<dd><a href="javascript:;" class="showNotice"><i class="layui-icon">&#xe645;</i><cite>系统公告</cite><span class="layui-badge-dot"></span></a></dd>
 							<dd pc><a href="javascript:;" class="functionSetting"><i class="layui-icon">&#xe620;</i><cite>功能设定</cite><span class="layui-badge-dot"></span></a></dd>
 							<dd pc><a href="javascript:;" class="changeSkin"><i class="layui-icon">&#xe61b;</i><cite>更换皮肤</cite></a></dd>
-							<dd><a href="page/login/login.html" class="signOut"><i class="seraph icon-tuichu"></i><cite>退出</cite></a></dd>
+							<dd><a th:href="@{/logout}" href="page/login/login.html" class="signOut"><i class="seraph icon-tuichu"></i><cite>退出</cite></a></dd>
 						</dl>
 					</li>
 				</ul>
@@ -125,7 +125,13 @@
 	<div class="site-tree-mobile"><i class="layui-icon">&#xe602;</i></div>
 	<div class="site-mobile-shade"></div>
 
-	<script type="text/javascript" th:src="@{/layui/layui.js}" src="layui/layui.js"></script>
+    <script th:inline="javascript"> var ctx = [[@{/}]] ; </script>
+    <!-- 全局js -->
+    <script type="text/javascript" th:src="@{/webjars/jquery/3.3.1-1/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/az/js/ajaxUtil.js}"></script>
+
+
+    <script type="text/javascript" th:src="@{/layui/layui.js}" src="layui/layui.js"></script>
 	<script type="text/javascript" th:src="@{js/index.js}" src="js/index.js"></script>
 	<script type="text/javascript" th:src="@{/js/cache.js}" src="js/cache.js"></script>
 </body>

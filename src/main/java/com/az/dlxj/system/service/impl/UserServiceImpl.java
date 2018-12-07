@@ -7,6 +7,8 @@ import com.az.dlxj.system.shiro.bean.UserDO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @Author : az
  * @Create : 2018-12-05 16:41
@@ -21,5 +23,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUserByUserName(String userName){
         return  userDao.getUserByUserName(userName);
+    }
+
+    @Override
+    public List<User> getAll() {
+        return userDao.getAll();
     }
 }

@@ -1,11 +1,14 @@
 package com.az.dlxj.system.controller;
 
 import com.az.dlxj.common.annotation.Log;
+import com.az.dlxj.common.util.ShiroUtils;
 import com.az.dlxj.system.util.Constants;
 import com.az.dlxj.system.util.VerifyCodeUtil;
+import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.imageio.ImageIO;
@@ -25,37 +28,36 @@ public class DispatcherController {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-
-
     // 后台主页内容
     @GetMapping("/page/main")
     public String pageMain(){
-        return "page/main";
+        return "/page/main";
     }
 
     // 500
     @GetMapping("/500")
     public String e500(){
-        return "page/500";
+        return "/page/500";
     }
 
     // 404
     @GetMapping("/404")
     public String e404(){
-        return "page/404";
+        return "/page/404";
     }
 
     // 403
     @GetMapping("/403")
     public String e403(){
-        return "page/403";
+        return "/page/403";
     }
 
     // 后台主页框架
     @Log("请求访问主页")
     @GetMapping("/main")
-    public String index(){
-        return "index";
+    public String index(Model model){
+        model.addAttribute("username", ShiroUtils.getUser().getUsername());
+        return "/index";
     }
 
     // 获取验证码图片和文本(验证码文本会保存在HttpSession中)
@@ -80,12 +82,14 @@ public class DispatcherController {
     @Log("登出")
     @GetMapping("/logout")
     String logout(){
+        ShiroUtils.logout();
         return "redirect:/login";
     }
 
     // 登录
     @GetMapping("/login")
     public String login(){
-        return "page/login/login";
+        Subject subjct = ShiroUtils.getSubjct();
+        return subjct.isAuthenticated() ? "redirect:/main" : "/page/login/login";
     }
 }

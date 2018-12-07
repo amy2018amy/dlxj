@@ -1,8 +1,12 @@
 package com.az.dlxj.system.shiro.realm;
 
+import com.az.dlxj.common.util.ShiroUtils;
+import com.az.dlxj.common.util.ToolUtils;
 import com.az.dlxj.system.domain.User;
 import com.az.dlxj.system.service.MenuDOService;
+import com.az.dlxj.system.service.RoleDOService;
 import com.az.dlxj.system.service.UserService;
+import com.az.dlxj.system.shiro.config.ByteSourceUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
@@ -14,7 +18,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 
-import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -35,6 +38,12 @@ public class LoginRealm extends AuthorizingRealm {
     @Autowired
     private MenuDOService menuDOService;
 
+    @Lazy
+    @Autowired
+    private RoleDOService roleDOService;
+
+
+
     /**
      * 认证
      */
@@ -46,18 +55,13 @@ public class LoginRealm extends AuthorizingRealm {
         // 1.可以把AuthenticationToken强转为UsernamePasswordToken
         UsernamePasswordToken usernamePasswordToken = (UsernamePasswordToken) token;
         String username = usernamePasswordToken.getUsername();
-//        String password = new String(usernamePasswordToken.getPassword());
 
         // 2.调用数据库的方法，从数据库中查询对应的记录
         User user = userService.getUserByUserName(username);
 
         // 3.根据用户的情况抛出AuthenticationException或其子类
-//        password = new SimpleHash("md5", password, ByteSource.Util.bytes(user.getSalt()),1024).toHex();
-
         // 账号不存在
         if (user == null) { throw new UnknownAccountException("账号不存在"); }
-        // 密码错误
-//        if (!password.equals(user.getPassword())) {  throw new IncorrectCredentialsException("密码不正确"); }
         // 账号锁定
         if (2 == user.getState()) { throw new LockedAccountException("账号已被锁定,请联系管理员！"); }
 
@@ -67,7 +71,6 @@ public class LoginRealm extends AuthorizingRealm {
 //        String realmName = getName();// 当前realm对象的name ， 调用父类的getName即可
         ByteSource credentialsSalt =  ByteSourceUtils.bytes(user.getSalt());// 盐值
         SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(user, user.getPassword(), credentialsSalt,getName());
-//        logger.debug(((User)SecurityUtils.getSubject().getPrincipal()).toString());
         logger.debug(info.getCredentials().toString());
         logger.debug(info.getCredentialsSalt().toString());
         logger.info("---------------结束认证-----------------");
@@ -103,14 +106,10 @@ public class LoginRealm extends AuthorizingRealm {
         String username = ((User) principals.getPrimaryPrincipal()).getUsername();
         // 查询用户名称
         User user = userService.getUserByUserName(username);
-        // 权限字符串
-        Set<String> permissions = new HashSet<String>();
         // 角色字符串
-        Set<String> roles = new HashSet<String>();
-
-
-
-
+        Set<String> roles = roleDOService.getRoleStrByUserId(Integer.valueOf(ShiroUtils.getUserId()+""));
+        // 权限字符串
+        Set<String> permissions = menuDOService.getPermsByUserId(Integer.valueOf(ShiroUtils.getUserId()+""));
 
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         info.addStringPermissions(permissions);
@@ -120,11 +119,8 @@ public class LoginRealm extends AuthorizingRealm {
         return info;
     }
     public static void main(String[] args) {
-
-
-
-//        String s = ToolUtils.entryptPassword("admin", "az");
-//        System.out.println("s = " + s);
+        String s = ToolUtils.entryptPassword("xianlu", "a");
+        System.out.println("s = " + s);
 //        String hashAlgorithmName = "MD5";
 //        Object credentials = "xiaoque";
 //        Object salt = ByteSource.Util.bytes("a");;

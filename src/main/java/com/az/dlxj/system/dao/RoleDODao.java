@@ -15,5 +15,6 @@ import java.util.List;
 public interface RoleDODao extends BaseDao<RoleDO> {
 
     public List<RoleDO> getAll();
+    public List<String> getRoleStrByUserId(Integer uid);
 
 }

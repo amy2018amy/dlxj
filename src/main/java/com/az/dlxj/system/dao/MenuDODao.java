@@ -15,5 +15,6 @@ import java.util.List;
 public interface MenuDODao extends BaseDao<MenuDO> {
 
     public List<MenuDO> getAll();
-
+    public List<String> getPermsByUserId(Integer uid);
+    public List<MenuDO> listMenuTreeByUid(Integer uid);
 }

@@ -1,4 +1,4 @@
-package com.az.dlxj.system.shiro.realm;
+package com.az.dlxj.system.shiro.config;
 
 import java.io.Serializable;
 

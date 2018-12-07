@@ -2,6 +2,8 @@ package com.az.dlxj.system.service;
 
 import com.az.dlxj.system.domain.User;
 
+import java.util.List;
+
 /**
  * @Author : az
  * @Create : 2018-12-05 16:41
@@ -11,5 +13,5 @@ public interface UserService {
     // 登录
     public User getUserByUserName(String userName);
 
-
+    public List<User> getAll();
 }

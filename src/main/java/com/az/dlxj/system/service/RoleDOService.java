@@ -3,6 +3,7 @@ package com.az.dlxj.system.service;
 import com.az.dlxj.system.shiro.bean.RoleDO;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @Author : az
@@ -11,4 +12,5 @@ import java.util.List;
  */
 public interface RoleDOService {
     public List<RoleDO> getAll();
+    public Set<String> getRoleStrByUserId(Integer uid);
 }

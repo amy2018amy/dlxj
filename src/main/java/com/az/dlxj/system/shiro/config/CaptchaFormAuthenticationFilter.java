@@ -1,4 +1,4 @@
-package com.az.dlxj.system.shiro;
+package com.az.dlxj.system.shiro.config;
 
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.subject.Subject;
