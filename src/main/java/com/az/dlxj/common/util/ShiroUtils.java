@@ -16,7 +16,10 @@ public class ShiroUtils {
     private static SessionDAO sessionDAO;
 
     public static Subject getSubjct() {
-        return SecurityUtils.getSubject();
+//        return SecurityUtils.getSubject();
+        Subject subject = SecurityUtils.getSubject();
+        System.out.println("subject = " + subject);
+        return subject;
     }
     public static User getUser() {
         Object obj = getSubjct().getPrincipal();

@@ -1,6 +1,5 @@
 package com.az.dlxj.system.shiro.realm;
 
-import com.az.dlxj.common.util.ToolUtils;
 import com.az.dlxj.system.domain.User;
 import com.az.dlxj.system.service.MenuDOService;
 import com.az.dlxj.system.service.UserService;
@@ -121,8 +120,11 @@ public class LoginRealm extends AuthorizingRealm {
         return info;
     }
     public static void main(String[] args) {
-        String s = ToolUtils.entryptPassword("admin", "az");
-        System.out.println("s = " + s);
+
+
+
+//        String s = ToolUtils.entryptPassword("admin", "az");
+//        System.out.println("s = " + s);
 //        String hashAlgorithmName = "MD5";
 //        Object credentials = "xiaoque";
 //        Object salt = ByteSource.Util.bytes("a");;
