@@ -1,11 +1,12 @@
 package com.az.dlxj.system.shiro.realm;
 
+import com.az.dlxj.common.util.ToolUtils;
 import com.az.dlxj.system.domain.User;
+import com.az.dlxj.system.service.MenuDOService;
 import com.az.dlxj.system.service.UserService;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
-import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
@@ -31,6 +32,10 @@ public class LoginRealm extends AuthorizingRealm {
     @Autowired
     private UserService userService;
 
+    @Lazy
+    @Autowired
+    private MenuDOService menuDOService;
+
     /**
      * 认证
      */
@@ -42,30 +47,28 @@ public class LoginRealm extends AuthorizingRealm {
         // 1.可以把AuthenticationToken强转为UsernamePasswordToken
         UsernamePasswordToken usernamePasswordToken = (UsernamePasswordToken) token;
         String username = usernamePasswordToken.getUsername();
-        String password = new String(usernamePasswordToken.getPassword());
+//        String password = new String(usernamePasswordToken.getPassword());
 
         // 2.调用数据库的方法，从数据库中查询对应的记录
         User user = userService.getUserByUserName(username);
 
         // 3.根据用户的情况抛出AuthenticationException或其子类
-        password = new SimpleHash("md5", password, ByteSource.Util.bytes(user.getSalt()),1024).toHex();
+//        password = new SimpleHash("md5", password, ByteSource.Util.bytes(user.getSalt()),1024).toHex();
 
         // 账号不存在
-        if (user == null) { throw new UnknownAccountException("账号或密码不正确"); }
+        if (user == null) { throw new UnknownAccountException("账号不存在"); }
         // 密码错误
-        if (!password.equals(user.getPassword())) {  throw new IncorrectCredentialsException("账号或密码不正确"); }
+//        if (!password.equals(user.getPassword())) {  throw new IncorrectCredentialsException("密码不正确"); }
         // 账号锁定
         if (2 == user.getState()) { throw new LockedAccountException("账号已被锁定,请联系管理员！"); }
 
-//        byte[] salt = Encodes.decodeHex(user.getSalt());
-//        ShiroUser u = new ShiroUser(user.getId(), user.getUsername(), user.getNickName(), user.getIcon());
 //        // 4.根据用户情况，构建AuthenticationInfo并返回
 //        Object principal = user;// 认证的实体信息，可以是username，也可是user（用户名）
 //        Object credentials = user.getPassword();// 凭证（密码）
 //        String realmName = getName();// 当前realm对象的name ， 调用父类的getName即可
-        ByteSource credentialsSalt = ByteSource.Util.bytes(user.getSalt());// 盐值
-//        SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(principal, credentials, credentialsSalt, realmName);
-        SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(user, password, credentialsSalt,getName());
+        ByteSource credentialsSalt =  ByteSourceUtils.bytes(user.getSalt());// 盐值
+        SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(user, user.getPassword(), credentialsSalt,getName());
+//        logger.debug(((User)SecurityUtils.getSubject().getPrincipal()).toString());
         logger.debug(info.getCredentials().toString());
         logger.debug(info.getCredentialsSalt().toString());
         logger.info("---------------结束认证-----------------");
@@ -108,6 +111,8 @@ public class LoginRealm extends AuthorizingRealm {
 
 
 
+
+
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         info.addStringPermissions(permissions);
         info.addRoles(roles);
@@ -116,13 +121,15 @@ public class LoginRealm extends AuthorizingRealm {
         return info;
     }
     public static void main(String[] args) {
-        String hashAlgorithmName = "MD5";
-        Object credentials = "admin";
-        Object salt = ByteSource.Util.bytes("az");;
-        int hashIterations = 1024;
-
-        Object result = new SimpleHash(hashAlgorithmName, credentials, salt, hashIterations);
-        System.out.println(result);
+        String s = ToolUtils.entryptPassword("admin", "az");
+        System.out.println("s = " + s);
+//        String hashAlgorithmName = "MD5";
+//        Object credentials = "xiaoque";
+//        Object salt = ByteSource.Util.bytes("a");;
+//        int hashIterations = 1024;
+//
+//        Object result = new SimpleHash(hashAlgorithmName, credentials, salt, hashIterations);
+//        System.out.println(result);
     }
 
 

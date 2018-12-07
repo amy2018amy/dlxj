@@ -18,12 +18,17 @@ public class MenuDO implements Serializable {
     private String icon;
     // 父级菜单ID：一级菜单为0
     private Integer pid;
+    // 父级菜单列表
+    private String pIds;
+    // 菜单层级
+    private Integer level;
     // 授权(多个用逗号分隔，如：user:list,user:create)
     private String perms;
     // 类型 0：目录 1：菜单 2：按钮
     private Integer mtype;
-    // 是否可用
-    private Boolean available = Boolean.FALSE;
+    // 是否可用 1:可用 0:不可用
+    private Integer available=1;
+
 
     @Override
     public String toString() {
@@ -33,10 +38,28 @@ public class MenuDO implements Serializable {
                 ", url='" + url + '\'' +
                 ", icon='" + icon + '\'' +
                 ", pid=" + pid +
+                ", pIds='" + pIds + '\'' +
+                ", level=" + level +
                 ", perms='" + perms + '\'' +
                 ", mtype=" + mtype +
                 ", available=" + available +
                 '}';
+    }
+
+    public String getpIds() {
+        return pIds;
+    }
+
+    public void setpIds(String pIds) {
+        this.pIds = pIds;
+    }
+
+    public Integer getLevel() {
+        return level;
+    }
+
+    public void setLevel(Integer level) {
+        this.level = level;
     }
 
     public Integer getId() {
@@ -95,11 +118,11 @@ public class MenuDO implements Serializable {
         this.mtype = mtype;
     }
 
-    public Boolean getAvailable() {
+    public Integer getAvailable() {
         return available;
     }
 
-    public void setAvailable(Boolean available) {
+    public void setAvailable(Integer available) {
         this.available = available;
     }
 }

@@ -4,13 +4,16 @@
 <mapper namespace="com.az.dlxj.common.dao.LogDao">
 
 	<select id="get" resultType="com.az.dlxj.common.domain.LogDO">
-		select `id`,`user_id`,`username`,`operation`,`time`,`method`,`params`,`ip`,`gmt_create` from sys_log where id = #{value}
+		select `id`,`type`,`request_uri`,`http_method`,`user_id`,`username`,`operation`,`time`,`method`,`params`,`ip`,`gmt_create` from sys_log where id = #{value}
 	</select>
 
 	<select id="list" resultType="com.az.dlxj.common.domain.LogDO">
-		select `id`,`user_id`,`username`,`operation`,`time`,`method`,`params`,`ip`,`gmt_create` from sys_log
+		select `id`,`type`,`request_uri`,`http_method`,`user_id`,`username`,`operation`,`time`,`method`,`params`,`ip`,`gmt_create` from sys_log
         <where>  
 		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="type != null and type != ''"> and `type` = #{type} </if>
+		  		  <if test="request_uri != null and request_uri != ''"> and request_uri = #{requestUri} </if>
+		  		  <if test="http_method != null and http_method != ''"> and http_method = #{httpMethod} </if>
 		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
 		  		  <if test="username != null and username != ''"> and username = #{username} </if>
 		  		  <if test="operation != null and operation != ''"> and operation = #{operation} </if>
@@ -37,6 +40,9 @@
 		select count(*) from sys_log
 		 <where>  
 		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+				 <if test="type != null and type != ''"> and `type` = #{type} </if>
+				 <if test="request_uri != null and request_uri != ''"> and request_uri = #{requestUri} </if>
+				 <if test="http_method != null and http_method != ''"> and http_method = #{httpMethod} </if>
 		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
 		  		  <if test="username != null and username != ''"> and username = #{username} </if>
 		  		  <if test="operation != null and operation != ''"> and operation = #{operation} </if>
@@ -51,7 +57,7 @@
 	<insert id="save" parameterType="com.az.dlxj.common.domain.LogDO" useGeneratedKeys="true" keyProperty="id">
 		insert into sys_log
 		(
-			`user_id`, 
+			`user_id`,`type`,`request_uri`,`http_method`,
 			`username`, 
 			`operation`, 
 			`time`, 
@@ -62,8 +68,11 @@
 		)
 		values
 		(
-			#{userId}, 
-			#{username}, 
+			#{userId},
+			#{type},
+			#{requestUri},
+			#{httpMethod},
+			#{username},
 			#{operation}, 
 			#{time}, 
 			#{method}, 
@@ -76,6 +85,9 @@
 	<update id="update" parameterType="com.az.dlxj.common.domain.LogDO">
 		update sys_log 
 		<set>
+			<if test="type != null and type != ''"> and `type` = #{type} </if>
+			<if test="request_uri != null and request_uri != ''"> and request_uri = #{requestUri} </if>
+			<if test="http_method != null and http_method != ''"> and http_method = #{httpMethod} </if>
 			<if test="userId != null">`user_id` = #{userId}, </if>
 			<if test="username != null">`username` = #{username}, </if>
 			<if test="operation != null">`operation` = #{operation}, </if>

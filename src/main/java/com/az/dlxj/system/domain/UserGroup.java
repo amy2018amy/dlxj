@@ -1,6 +1,8 @@
 package com.az.dlxj.system.domain;
 
-public class UserGroup {
+import java.io.Serializable;
+
+public class UserGroup  implements Serializable {
 	private String gname;
 	private int gcount;
 	

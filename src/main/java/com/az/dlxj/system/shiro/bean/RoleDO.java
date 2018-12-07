@@ -16,8 +16,8 @@ public class RoleDO implements Serializable {
     private String name;
     // 角色描述
     private String desc;
-    // 是否可用，如果不可用不会添加给用户
-    private Boolean available = Boolean.FALSE;
+    // 是否可用，如果不可用不会添加给用户 1:可用 0:不可用
+    private Integer available = 1;
     // 角色 -- 权限 ：多对多关系
     private Set<MenuDO> menus = new HashSet<>();;
 
@@ -56,11 +56,11 @@ public class RoleDO implements Serializable {
         this.desc = desc;
     }
 
-    public Boolean getAvailable() {
+    public Integer getAvailable() {
         return available;
     }
 
-    public void setAvailable(Boolean available) {
+    public void setAvailable(Integer available) {
         this.available = available;
     }
 

@@ -1,5 +1,6 @@
 package com.az.dlxj.system.controller;
 
+import com.az.dlxj.common.annotation.Log;
 import com.az.dlxj.system.util.Constants;
 import com.az.dlxj.system.util.VerifyCodeUtil;
 import org.slf4j.Logger;
@@ -25,25 +26,33 @@ public class DispatcherController {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 
+
     // 后台主页内容
     @GetMapping("/page/main")
     public String pageMain(){
         return "page/main";
     }
 
+    // 500
+    @GetMapping("/500")
+    public String e500(){
+        return "page/500";
+    }
+
     // 404
     @GetMapping("/404")
-    public String notFound(){
+    public String e404(){
         return "page/404";
     }
 
     // 403
     @GetMapping("/403")
-    public String notAuth(){
+    public String e403(){
         return "page/403";
     }
 
     // 后台主页框架
+    @Log("请求访问主页")
     @GetMapping("/main")
     public String index(){
         return "index";
@@ -68,6 +77,7 @@ public class DispatcherController {
     }
 
     // 登出
+    @Log("登出")
     @GetMapping("/logout")
     String logout(){
         return "redirect:/login";

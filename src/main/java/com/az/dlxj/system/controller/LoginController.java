@@ -76,7 +76,6 @@ public class LoginController {
 //            } catch (UnauthorizedException e) {
 //                error = "您没有得到相应的授权！";
             } catch (AuthenticationException e) {
-                e.printStackTrace();
                 error = "用户或密码错误";
             }
         }

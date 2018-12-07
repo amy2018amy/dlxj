@@ -32,7 +32,7 @@ layui.use(['form','layer','jquery'],function(){
                     $("#checkCodeImg").click();
                     btn.text("登录").removeAttr("disabled").removeClass("layui-disabled");
                 }
-            },
+            }
         });
 
         return false;
@@ -41,6 +41,7 @@ layui.use(['form','layer','jquery'],function(){
     // 切换验证码
     $("#checkCodeImg").on('click',function(){
         var t = Math.random();
+        $("#code").val("");
         $(this)[0].src=ctx+"genCaptcha?t="+t;
     });
 

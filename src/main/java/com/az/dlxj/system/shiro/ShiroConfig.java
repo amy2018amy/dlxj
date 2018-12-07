@@ -18,15 +18,21 @@ import org.slf4j.LoggerFactory;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.server.ErrorPage;
+import org.springframework.boot.web.server.ErrorPageRegistrar;
+import org.springframework.boot.web.server.ErrorPageRegistry;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.filter.DelegatingFilterProxy;
+import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 
 import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Properties;
 
 /**
  * @Author : az
@@ -76,18 +82,27 @@ public class ShiroConfig {
         logger.info("=============ShiroConfig.shirFilter()..");
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         LinkedHashMap<String, Filter> filtersMap = new LinkedHashMap<>();// 自定义拦截器
+        filtersMap.put("authc",new CaptchaFormAuthenticationFilter());
         //配置访问权限
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>();
-//        filterChainDefinitionMap.put("/layui/**", "anon"); // 静态资源匿名访问
+//        filterChainDefinitionMap.put("/static/**", "anon"); // 静态资源匿名访问
 //        filterChainDefinitionMap.put("*.js", "anon"); // 静态资源匿名访问
 //        filterChainDefinitionMap.put("*.css", "anon"); // 静态资源匿名访问
-//        filterChainDefinitionMap.put("/favicon.ico", "anon"); // 静态资源匿名访问
-//        filterChainDefinitionMap.put("/login", "anon");// 匿名访问
-//        filterChainDefinitionMap.put("/", "anon");// 匿名访问
-//        filterChainDefinitionMap.put("/genCaptcha","anon"); // 验证码
-//        filterChainDefinitionMap.put("/logout", "logout"); // 用户退出，只需配置logout即可实现该功能
+        filterChainDefinitionMap.put("/webjars/**", "anon"); // 静态资源匿名访问
+        filterChainDefinitionMap.put("/az/**", "anon"); // 静态资源匿名访问
+        filterChainDefinitionMap.put("/css/**", "anon"); // 静态资源匿名访问
+        filterChainDefinitionMap.put("/images/**", "anon"); // 静态资源匿名访问
+        filterChainDefinitionMap.put("/js/**", "anon"); // 静态资源匿名访问
+        filterChainDefinitionMap.put("/json/**", "anon"); // 静态资源匿名访问
+        filterChainDefinitionMap.put("/layui/**", "anon"); // 静态资源匿名访问
+        filterChainDefinitionMap.put("/page/**", "anon"); // 静态资源匿名访问
+        filterChainDefinitionMap.put("/druid/**", "anon"); // 静态资源匿名访问
+        filterChainDefinitionMap.put("/favicon.ico", "anon"); // 静态资源匿名访问
+        filterChainDefinitionMap.put("/login", "anon");// 匿名访问
+        filterChainDefinitionMap.put("/genCaptcha","anon"); // 验证码
+        filterChainDefinitionMap.put("/logout", "logout"); // 用户退出，只需配置logout即可实现该功能
 //        filterChainDefinitionMap.put("/**", "authc");  //其他资源都需要认证  authc 表示需要认证才能进行访问 user表示配置记住我或认证通过可以访问的地址
-        filterChainDefinitionMap.put("/**", "anon");  //其他资源都需要认证  authc 表示需要认证才能进行访问 user表示配置记住我或认证通过可以访问的地址
+        filterChainDefinitionMap.put("/**", "authc");  //其他资源都需要认证  authc 表示需要认证才能进行访问 user表示配置记住我或认证通过可以访问的地址
         shiroFilterFactoryBean.setSecurityManager(securityManager(loginRealm));
         shiroFilterFactoryBean.setFilters(filtersMap);
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
@@ -128,6 +143,8 @@ public class ShiroConfig {
         manager.setGlobalSessionTimeout(60 * 60 * 1000);
         manager.setSessionValidationSchedulerEnabled(true);
         manager.setSessionDAO(redisSessionDAO());
+        //取消url 后面的 JSESSIONID
+        manager.setSessionIdUrlRewritingEnabled(false);
         return manager;
     }
     // =====Redis Properties=======
@@ -185,15 +202,53 @@ public class ShiroConfig {
         LoginRealm loginRealm = new LoginRealm();
         loginRealm.setCachingEnabled(true);
         //启用身份验证缓存，即缓存AuthenticationInfo信息，默认false
-        loginRealm.setAuthenticationCachingEnabled(false);
+        loginRealm.setAuthenticationCachingEnabled(true);
         //缓存AuthenticationInfo信息的缓存名称 在ehcache-shiro.xml中有对应缓存的配置
 //        loginRealm.setAuthenticationCacheName("authenticationCache");
         //启用授权缓存，即缓存AuthorizationInfo信息，默认false
-        loginRealm.setAuthorizationCachingEnabled(false);
+        loginRealm.setAuthorizationCachingEnabled(true);
         //缓存AuthorizationInfo信息的缓存名称  在ehcache-shiro.xml中有对应缓存的配置
 //        loginRealm.setAuthorizationCacheName("authorizationCache");
         //配置自定义密码比较器
         loginRealm.setCredentialsMatcher(hashedCredentialsMatcher());
         return loginRealm;
     }
+
+    /**
+     * 解决： 无权限页面不跳转 shiroFilterFactoryBean.setUnauthorizedUrl("/unauthorized") 无效
+     * shiro的源代码ShiroFilterFactoryBean.Java定义的filter必须满足filter instanceof AuthorizationFilter，
+     * 只有perms，roles，ssl，rest，port才是属于AuthorizationFilter，而anon，authcBasic，auchc，user是AuthenticationFilter，
+     * 所以unauthorizedUrl设置后页面不跳转 Shiro注解模式下，登录失败与没有权限都是通过抛出异常。
+     * 并且默认并没有去处理或者捕获这些异常。在SpringMVC下需要配置捕获相应异常来通知用户信息
+     * @return
+     */
+    @Bean
+    public SimpleMappingExceptionResolver simpleMappingExceptionResolver() {
+        SimpleMappingExceptionResolver simpleMappingExceptionResolver=new SimpleMappingExceptionResolver();
+        Properties properties=new Properties(); //这里的 /unauthorized 是页面，不是访问的路径
+        properties.setProperty("org.apache.shiro.authz.UnauthorizedException","/403");
+        properties.setProperty("org.apache.shiro.authz.UnauthenticatedException","/403");
+        simpleMappingExceptionResolver.setExceptionMappings(properties);
+        return simpleMappingExceptionResolver;
+    }
+
+    /**
+     * 解决spring-boot Whitelabel Error Page
+     * SpringBoot-全局异常跳转页
+     * @return
+     */
+    @Bean
+    public ErrorPageRegistrar containerCustomizer() {
+        return new ErrorPageRegistrar () {
+            @Override
+            public void registerErrorPages(ErrorPageRegistry registry) {
+                ErrorPage error403Page = new ErrorPage(HttpStatus.UNAUTHORIZED, "/403");
+                ErrorPage error404Page = new ErrorPage(HttpStatus.NOT_FOUND, "/404");
+                ErrorPage error500Page = new ErrorPage(HttpStatus.INTERNAL_SERVER_ERROR, "/500");
+                registry.addErrorPages(error403Page,error404Page,error500Page);
+            }
+        };
+    }
+
+
 }

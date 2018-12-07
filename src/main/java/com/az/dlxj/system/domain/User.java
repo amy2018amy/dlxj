@@ -1,5 +1,6 @@
 package com.az.dlxj.system.domain;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -9,8 +10,8 @@ import java.util.Set;
  * User entity. @author MyEclipse Persistence Tools
  */
 
-public class User  implements java.io.Serializable {
-
+public class User  implements Serializable {
+    private static final long serialVersionUID = -1373760761780840081L;
     // 昵称
     private String nickName;
     // 登录名

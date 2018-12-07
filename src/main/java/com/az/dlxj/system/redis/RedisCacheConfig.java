@@ -50,10 +50,11 @@ public class RedisCacheConfig {
     public CacheManager cacheManager(RedisConnectionFactory factory) {
         RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig();
         // 生成一个默认配置，通过config对象即可对缓存进行自定义配置
+        // 设置缓存的默认过期时间，也是使用Duration设置
         config = config.entryTtl(Duration.ofMinutes(1))
-                // 设置缓存的默认过期时间，也是使用Duration设置
+                // 不缓存空值
                 .disableCachingNullValues();
-        // 不缓存空值
+
         // 设置一个初始化的缓存空间set集合
         Set<String> cacheNames = new HashSet<>();
         cacheNames.add("my-redis-cache1");

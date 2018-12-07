@@ -1,8 +1,9 @@
 package com.az.dlxj.system.domain;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class WaiTransact {
+public class WaiTransact  implements Serializable {
 	
 	private String name;
 	private Date time;

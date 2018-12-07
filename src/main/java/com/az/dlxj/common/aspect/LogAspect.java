@@ -4,7 +4,9 @@ import com.az.dlxj.common.annotation.Log;
 import com.az.dlxj.common.domain.LogDO;
 import com.az.dlxj.common.service.LogService;
 import com.az.dlxj.common.util.HttpContextUtils;
-import com.az.dlxj.common.util.IPUtils;
+import com.az.dlxj.common.util.ShiroUtils;
+import com.az.dlxj.common.util.ToolUtils;
+import com.az.dlxj.system.domain.User;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -81,11 +83,30 @@ public class LogAspect {
         }
         // 获取request
         HttpServletRequest request = HttpContextUtils.getHttpServletRequest();
-        // i.IP地址
-        sysLog.setIp(IPUtils.getIpAddr(request));
-        // i.用户名
 
-        // ....shiro获取
+        // 请求类型
+        sysLog.setType(ToolUtils.isAjax(request)?"Ajax请求":"普通请求");
+        // 请求地址
+        sysLog.setRequestUri(request.getRequestURL().toString());
+        // 请求方法
+        sysLog.setHttpMethod(request.getMethod());
+
+        // i.IP地址
+        sysLog.setIp(ToolUtils.getClientIp(request));
+        // i.用户名
+        User currUser = ShiroUtils.getUser();
+        if (null == currUser) {
+            if (null != sysLog.getParams()) {
+                sysLog.setUserId(-1L);
+                sysLog.setUsername(sysLog.getParams());
+            } else {
+                sysLog.setUserId(-1L);
+                sysLog.setUsername("获取用户信息为空");
+            }
+        } else {
+            sysLog.setUserId(ShiroUtils.getUserId());
+            sysLog.setUsername(ShiroUtils.getUser().getUsername());
+        }
 
         // i.日志时间
         sysLog.setTime((int)time);

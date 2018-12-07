@@ -17,17 +17,24 @@ public class LogDO {
     private String username;
     // 日志概述
     private String operation;
-    // 时间
-    private Integer time;
     // 方法
     private String method;
     // 参数
     private String params;
     // ip
     private String ip;
+    // 请求方式
+    private String type;
+    // request_uri
+    private String requestUri;
+    // http_method
+    private String httpMethod;
+    // 时间
+    private Integer time;
     // GMT中央时区 ，比北京时区晚8小时
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     private Date gmtCreate;
+
 
     @Override
     public String toString() {
@@ -36,12 +43,39 @@ public class LogDO {
                 ", userId=" + userId +
                 ", username='" + username + '\'' +
                 ", operation='" + operation + '\'' +
-                ", time=" + time +
                 ", method='" + method + '\'' +
                 ", params='" + params + '\'' +
                 ", ip='" + ip + '\'' +
+                ", type='" + type + '\'' +
+                ", requestUri='" + requestUri + '\'' +
+                ", httpMethod='" + httpMethod + '\'' +
+                ", time=" + time +
                 ", gmtCreate=" + gmtCreate +
                 '}';
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getRequestUri() {
+        return requestUri;
+    }
+
+    public void setRequestUri(String requestUri) {
+        this.requestUri = requestUri;
+    }
+
+    public String getHttpMethod() {
+        return httpMethod;
+    }
+
+    public void setHttpMethod(String httpMethod) {
+        this.httpMethod = httpMethod;
     }
 
     public Long getId() {
