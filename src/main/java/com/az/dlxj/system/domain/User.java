@@ -248,13 +248,13 @@ public class User  implements Serializable {
 	public void setWaitCount(Integer waitCount) {
 		this.waitCount = waitCount;
 	}
-   
 
 
+    public Integer getRid() {
+        return rid;
+    }
 
-
-
-
-
-
+    public void setRid(Integer rid) {
+        this.rid = rid;
+    }
 }

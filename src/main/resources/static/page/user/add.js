@@ -23,4 +23,19 @@ layui.use(['form','layer'],function(){
         return false;
     })
 
+    loadSelectData();
+    //加载下拉框数据
+    function loadSelectData(){
+        $.post(ctx+"sys/role/selectData",{},function(re){
+            $('.roleVal').empty();
+            var result = eval(re);
+            $('.roleVal').append(new Option('全部',''));
+            $.each(result,function(i,n){
+                $('.roleVal').append(new Option(n.name,n.id));//往下拉菜单里添加元素
+            });
+            form.render();//菜单渲染 把内容加载进去
+        });
+    }
+
+
 })

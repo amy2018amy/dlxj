@@ -53,4 +53,19 @@ public class UserServiceImpl implements UserService {
 
         return 0;
     }
+
+    @Override
+    public User get(Integer id) {
+        return userDao.get(id);
+    }
+
+    @Override
+    public int remove(Integer id) {
+        return userDao.remove(id);
+    }
+
+    @Override
+    public int batchRemove(Integer[] ids) {
+        return userDao.batchRemove(ids);
+    }
 }

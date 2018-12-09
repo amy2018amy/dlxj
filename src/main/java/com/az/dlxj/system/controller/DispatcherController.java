@@ -94,13 +94,5 @@ public class DispatcherController {
         return subjct.isAuthenticated() ? "redirect:/main" : "/page/login/login";
     }
 
-    // ========User
-    @GetMapping("/sys/user/list.html")
-    public String userList(){
-        return "/page/sys/user/list";
-    }
-    @GetMapping("/sys/user/add.html")
-    public String addUser(){
-        return "/page/sys/user/edit";
-    }
+
 }

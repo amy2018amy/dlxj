@@ -63,5 +63,28 @@ public class UserController {
         return R.ok("添加成功");
     }
 
+    @Log("删除用户")
+    @PostMapping("/del")
+    public R del(Integer id){
+        logger.debug("del id:"+id);
+        try {
+            userService.remove(id);
+        } catch (Exception e){
+            return R.error("删除失败");
+        }
+        return R.ok("删除成功");
+    }
+    @Log("批量删除用户")
+    @PostMapping("/dels")
+    public R batchDel(@RequestParam("ids[]") Integer[] ids){
+        logger.debug("batchDel id:"+ids);
+        try {
+            userService.batchRemove(ids);
+        } catch (Exception e){
+            return R.error("删除失败");
+        }
+        return R.ok("删除成功");
+    }
+
 
 }

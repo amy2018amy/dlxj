@@ -21,5 +21,10 @@ public interface UserService {
     public long count(Map<String,Object> map);
 
     public int save(User user);
+    public User get(Integer id);
+
+    public int remove(Integer id);
+
+    public int batchRemove(Integer[] ids);
 
 }
