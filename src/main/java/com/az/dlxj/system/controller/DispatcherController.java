@@ -92,4 +92,6 @@ public class DispatcherController {
         Subject subjct = ShiroUtils.getSubjct();
         return subjct.isAuthenticated() ? "redirect:/main" : "/page/login/login";
     }
+
+
 }

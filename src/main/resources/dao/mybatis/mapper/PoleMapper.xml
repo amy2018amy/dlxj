@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.az.dlxj.system.dao.PoleDao">
+
+    <select id="allPole" resultType="com.az.dlxj.system.domain.Pole">
+        select * from pole
+    </select>
+    <select id="getPole" resultType="int">
+        SELECT COUNT(*) FROM pole WHERE id = #{title}
+    </select>
+    <insert id="addPole">
+        INSERT INTO `pole` (`id`, `lng`, `lat`, `state`)
+        VALUES
+            ('${title}', ${lng}, ${lat}, '1')
+    </insert>
+    <select id="circuitryById" resultType="int">
+        SELECT COUNT(*) FROM circuitry WHERE `startpoleNo` =#{id} OR endpoleNo =#{id}
+    </select>
+    <select id="circuitryByPole" resultType="int">
+        SELECT COUNT(*) FROM `circuitry_pole` WHERE pid = #{id}
+    </select>
+    <delete id="delPole">
+        DELETE FROM pole WHERE id =#{id}
+    </delete>
+</mapper>

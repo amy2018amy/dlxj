@@ -12,6 +12,7 @@ public class CircuitryPole implements java.io.Serializable {
 	private String pid;
 	private String cid;
 	private Integer position;
+	private Pole pole;
 
 	// Constructors
 
@@ -60,4 +61,11 @@ public class CircuitryPole implements java.io.Serializable {
 		this.position = position;
 	}
 
+	public Pole getPole() {
+		return pole;
+	}
+
+	public void setPole(Pole pole) {
+		this.pole = pole;
+	}
 }

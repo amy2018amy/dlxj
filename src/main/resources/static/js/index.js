@@ -3,7 +3,7 @@ layui.config({
     base : "js/"
 }).extend({
     "bodyTab" : "bodyTab"
-})
+});
 layui.use(['bodyTab','form','element','layer','jquery'],function(){
     var form = layui.form,
         element = layui.element;
@@ -54,7 +54,7 @@ layui.use(['bodyTab','form','element','layer','jquery'],function(){
             $('body').removeClass('site-mobile');  //移动端点击菜单关闭菜单层
         }
         $(this).parent("li").siblings().removeClass("layui-nav-itemed");
-    })
+    });
 
     //清除缓存
     $(".clearCache").click(function(){
@@ -65,7 +65,7 @@ layui.use(['bodyTab','form','element','layer','jquery'],function(){
             layer.close(index);
             layer.msg("缓存清除成功！");
         },1000);
-    })
+    });
 
     //刷新后还原打开的窗口
     if(cacheStr == "true") {

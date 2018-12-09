@@ -1,6 +1,7 @@
 package com.az.dlxj.system.domain;
 
 
+import java.util.List;
 
 /**
  * Circuitry entity. @author MyEclipse Persistence Tools
@@ -21,7 +22,7 @@ public class Circuitry  implements java.io.Serializable {
      private Integer voltage;
      private Integer state;
      private String remark;
-
+     private List<CircuitryPole> allPole;
 
     // Constructors
 
@@ -132,13 +133,13 @@ public class Circuitry  implements java.io.Serializable {
     public void setRemark(String remark) {
         this.remark = remark;
     }
-   
 
 
+    public List<CircuitryPole> getAllPole() {
+        return allPole;
+    }
 
-
-
-
-
-
+    public void setAllPole(List<CircuitryPole> allPole) {
+        this.allPole = allPole;
+    }
 }
