@@ -45,4 +45,12 @@ public class UserServiceImpl implements UserService {
     public long count(Map<String, Object> map) {
         return userDao.count(map);
     }
+
+    @Override
+    public int save(User user) {
+
+        userDao.save(user);
+
+        return 0;
+    }
 }

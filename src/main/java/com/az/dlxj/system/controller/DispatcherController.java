@@ -56,7 +56,7 @@ public class DispatcherController {
     @Log("请求访问主页")
     @GetMapping("/main")
     public String index(Model model){
-        model.addAttribute("username", ShiroUtils.getUser().getUsername());
+        model.addAttribute("username", ShiroUtils.getUser().getName());
         model.addAttribute("icon",ShiroUtils.getUser().getIcon());
         return "/index";
     }
@@ -95,8 +95,12 @@ public class DispatcherController {
     }
 
     // ========User
-    @GetMapping("/sys/user/list")
+    @GetMapping("/sys/user/list.html")
     public String userList(){
         return "/page/sys/user/list";
+    }
+    @GetMapping("/sys/user/add.html")
+    public String addUser(){
+        return "/page/sys/user/edit";
     }
 }

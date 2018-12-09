@@ -80,37 +80,33 @@ layui.use(['form','layer','laydate','table','laytpl'],function(){
 
     //搜索
     $(".search_btn").on("click",function(){
-        if($(".usernameVal").val() != ''){
-            table.reload("userListTable",{
-                page: {
-                    curr: 1 //重新从第 1 页开始
-                },
-                method:'post',
-                where: {
-                    username: $(".usernameVal").val(),  //搜索的关键字
-                    rid: $(".roleVal").val()
-                }
-            })
-        }else{
-            layer.msg("请输入搜索的内容");
-        }
+        table.reload("userListTable",{
+            page: {
+                curr: 1 //重新从第 1 页开始
+            },
+            method:'post',
+            where: {
+                username: $(".usernameVal").val(),  //搜索的关键字
+                rid: $(".roleVal").val()
+            }
+        })
     });
 
     //添加用户
     function addUser(edit){
+        console.log(edit);
+        var title = edit == undefined ? "添加用户" : "修改用户";
         var index = layui.layer.open({
-            title : "添加用户",
+            title : title,
             type : 2,
-            content : "userAdd.html",
+            content : ctx+"sys/user/add.html",
             success : function(layero, index){
                 var body = layui.layer.getChildFrame('body', index);
                 if(edit){
-                    body.find(".userName").val(edit.userName);  //登录名
-                    body.find(".userEmail").val(edit.userEmail);  //邮箱
-                    body.find(".userSex input[value="+edit.userSex+"]").prop("checked","checked");  //性别
-                    body.find(".userGrade").val(edit.userGrade);  //会员等级
-                    body.find(".userStatus").val(edit.userStatus);    //用户状态
-                    body.find(".userDesc").text(edit.userDesc);    //用户简介
+                    body.find(".userName").val(edit.username);  //登录名
+                    body.find(".userEmail").val(edit.email);  //邮箱
+                    body.find(".rid input[value="+edit.sex+"]").prop("checked","checked");  //性别
+                    // body.find(".roleVal").val(edit.)
                     form.render();
                 }
                 setTimeout(function(){

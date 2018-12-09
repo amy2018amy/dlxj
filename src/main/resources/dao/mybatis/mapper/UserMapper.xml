@@ -25,5 +25,9 @@
         </where>
     </select>
 
+    <insert id="">
+
+    </insert>
+
 
 </mapper>

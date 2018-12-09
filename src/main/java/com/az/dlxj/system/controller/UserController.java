@@ -1,6 +1,7 @@
 package com.az.dlxj.system.controller;
 
 import com.az.dlxj.common.annotation.Log;
+import com.az.dlxj.common.util.R;
 import com.az.dlxj.system.domain.User;
 import com.az.dlxj.system.service.UserService;
 import com.az.dlxj.system.util.LayuiResult;
@@ -10,9 +11,7 @@ import com.google.common.collect.Maps;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -57,5 +56,12 @@ public class UserController {
 
         return result.toString();
     }
+    @Log("添加用户")
+    @PostMapping("/save")
+    public R add(@RequestBody User user, @RequestParam("rid") Integer rid){
+        logger.debug("user = [" + user + "], rid = [" + rid + "]");
+        return R.ok("添加成功");
+    }
+
 
 }

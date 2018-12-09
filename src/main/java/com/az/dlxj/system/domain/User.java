@@ -12,6 +12,9 @@ import java.util.Set;
 
 public class User  implements Serializable {
     private static final long serialVersionUID = -1373760761780840081L;
+
+    // 角色
+    private Integer rid;
     // 昵称
     private String nickName;
     // 头像

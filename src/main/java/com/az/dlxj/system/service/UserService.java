@@ -15,11 +15,11 @@ public interface UserService {
     public User getUserByUserName(String userName);
 
     public List<User> getAll();
-
     public Long getPageDataCount();
-
 
     public List<User> list(Map<String,Object> map);
     public long count(Map<String,Object> map);
+
+    public int save(User user);
 
 }
