@@ -3,6 +3,7 @@ package com.az.dlxj.system.service;
 import com.az.dlxj.system.domain.User;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author : az
@@ -14,4 +15,11 @@ public interface UserService {
     public User getUserByUserName(String userName);
 
     public List<User> getAll();
+
+    public Long getPageDataCount();
+
+
+    public List<User> list(Map<String,Object> map);
+    public long count(Map<String,Object> map);
+
 }

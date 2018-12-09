@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author : az
@@ -28,5 +29,20 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> getAll() {
         return userDao.getAll();
+    }
+
+    @Override
+    public Long getPageDataCount() {
+        return userDao.getPageDataCount();
+    }
+
+    @Override
+    public List<User> list(Map<String, Object> map) {
+        return userDao.list(map);
+    }
+
+    @Override
+    public long count(Map<String, Object> map) {
+        return userDao.count(map);
     }
 }

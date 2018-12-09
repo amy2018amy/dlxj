@@ -13,7 +13,7 @@ public interface BaseDao<T> {
 
     List<T> list(Map<String, Object> map);
 
-    int count(Map<String, Object> map);
+    long count(Map<String, Object> map);
 
     int save(T t);
 

@@ -57,6 +57,7 @@ public class DispatcherController {
     @GetMapping("/main")
     public String index(Model model){
         model.addAttribute("username", ShiroUtils.getUser().getUsername());
+        model.addAttribute("icon",ShiroUtils.getUser().getIcon());
         return "/index";
     }
 
@@ -91,5 +92,11 @@ public class DispatcherController {
     public String login(){
         Subject subjct = ShiroUtils.getSubjct();
         return subjct.isAuthenticated() ? "redirect:/main" : "/page/login/login";
+    }
+
+    // ========User
+    @GetMapping("/sys/user/list")
+    public String userList(){
+        return "/page/sys/user/list";
     }
 }

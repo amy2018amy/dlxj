@@ -5,4 +5,25 @@
     <select id="getUserByUserName" resultType="com.az.dlxj.system.domain.User">
         select * from user where username=#{userName};
     </select>
+
+    <select id="list" resultType="com.az.dlxj.system.domain.User">
+       SELECT u.* FROM `user` u
+            LEFT JOIN `sys_user_role` ur ON u.`id`=ur.`user_id`
+            <where>
+                <if test="rid != null">AND ur.`role_id`=#{rid}</if>
+                <if test="username != null and username != ''">AND username LIKE CONCAT('%',#{username},'%')</if>
+            </where>
+            ORDER BY u.`joindate` DESC
+    </select>
+
+    <select id="count" resultType="com.az.dlxj.system.domain.User">
+       SELECT COUNT(1) FROM `user` u
+            LEFT JOIN `sys_user_role` ur ON u.`id`=ur.`user_id`
+        <where>
+            <if test="rid != null">AND ur.`role_id`=#{rid}</if>
+            <if test="username != null and username != ''">AND username LIKE CONCAT('%',#{username},'%')</if>
+        </where>
+    </select>
+
+
 </mapper>
