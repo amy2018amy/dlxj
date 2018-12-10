@@ -20,11 +20,11 @@ public interface UserService {
     public List<User> list(Map<String,Object> map);
     public long count(Map<String,Object> map);
 
-    public User get(Integer id);
     public int save(User user);
-    public int remove(Integer id);
-    public int batchRemove(Integer[] ids);
-    public int update(User user);
+    public User get(Integer id);
 
+    public int remove(Integer id);
+
+    public int batchRemove(Integer[] ids);
 
 }

@@ -12,4 +12,6 @@
             WHERE ur.`user_id`=#{id}
     </select>
 
+
+
 </mapper>

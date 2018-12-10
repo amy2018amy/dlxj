@@ -38,7 +38,6 @@ public class LoginController {
             @RequestParam("checkCode") String checkCode,
             HttpSession session){
         logger.debug("userName = [" + userName + "], password = [" + password + "], checkCode = [" + checkCode + "]");
-
         if(StringUtils.isBlank(checkCode)){
             return  R.error("验证码不能为空");
         }

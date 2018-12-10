@@ -3,8 +3,7 @@ package com.az.dlxj.system.service.impl;
 import com.az.dlxj.system.dao.UserDao;
 import com.az.dlxj.system.domain.User;
 import com.az.dlxj.system.service.UserService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.az.dlxj.system.shiro.bean.UserDO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,8 +17,6 @@ import java.util.Map;
  */
 @Service("userService")
 public class UserServiceImpl implements UserService {
-
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private UserDao userDao;
@@ -41,7 +38,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> list(Map<String, Object> map) {
-        logger.info("（User）执行查询list....");
         return userDao.list(map);
     }
 
@@ -52,7 +48,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public int save(User user) {
-        logger.info("(User)执行添加add....");
+
         userDao.save(user);
 
         return 0;
@@ -65,18 +61,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public int remove(Integer id) {
-        logger.info("(User)执行删除....");
         return userDao.remove(id);
     }
 
     @Override
     public int batchRemove(Integer[] ids) {
         return userDao.batchRemove(ids);
-    }
-
-    @Override
-    public int update(User user) {
-        logger.info("(User)执行修改...");
-        return userDao.update(user);
     }
 }
