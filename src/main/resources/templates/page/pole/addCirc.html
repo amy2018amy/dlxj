@@ -10,11 +10,67 @@
     <style type="text/css">
         html{height:100%}
         body{height:100%;margin:0px;padding:0px}
-        #container{height:100%}
+        #container{height:650px}
+        #conform{
+            width: 1760px;
+            height:130px;
+            display: block;
+            margin-top: 10px;
+            margin-left: -60px;
+        }
     </style>
 </head>
 <body>
     <div id="container"></div>
+    <div id="conform" class="layui-container">
+        <form class="layui-form">
+            <div class="layui-form-item">
+                    <label class="layui-form-label">路线ID:</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="id"  placeholder="请输入路线ID" required lay-verify="required"  autocomplete="off" class="layui-input">
+                    </div>
+                    <label class="layui-form-label">路线名称:</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="name" required lay-verify="required" placeholder="请输入路线名称" autocomplete="off" class="layui-input">
+                    </div>
+                    <label class="layui-form-label">电压:</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="voltage" required lay-verify="required" placeholder="请输入电压" autocomplete="off" class="layui-input">
+                    </div>
+                    <div class="layui-input-inline">
+                        <button type="button" class="layui-btn layui-btn-radius" id="StartpoleNo"  >设置起始塔杆</button>
+                    </div>
+                    <div class="layui-input-inline">
+                        <input type="text" name="poleByStartpoleNo" required lay-verify="required" disabled="disabled" placeholder="起始塔杆"  autocomplete="off" class="layui-input">
+                    </div>
+                    <div class="layui-input-inline">
+                        <button type="button" class="layui-btn layui-btn-radius" id="EndpoleNo">设置终止塔杆</button>
+                    </div>
+                    <div class="layui-input-inline">
+                        <input type="text" name="poleByEndpoleNo" required lay-verify="required" disabled="disabled"  placeholder="终止塔杆"  autocomplete="off" class="layui-input">
+                    </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">塔杆:</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="jihe" required lay-verify="required" disabled="disabled" autocomplete="off" class="layui-input">
+                </div>
+                <div class="layui-input-inline">
+                    <input type="button"  class="layui-btn layui-btn-radius" id="poleNoList" value="设置塔杆集合">
+                </div>
+
+                <label class="layui-form-label">线路长度:</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="arroundlength" required lay-verify="required" disabled="disabled"  autocomplete="off" class="layui-input">
+                </div>
+                <div class="layui-input-inline">
+                    <button type="reset" class="layui-btn layui-btn-radius" lay-submit lay-filter="formDemo">添加路线</button>
+                </div>
+            </div>
+            <input type="hidden" name="startPole" id="startPole" value="" />
+            <input type="hidden" name="endPole" id="endPole" value=""/>
+        </form>
+    </div>
     <script type="text/javascript" src="" th:src="@{/page/addCirc.js}"></script>
 </body>
 </html>
