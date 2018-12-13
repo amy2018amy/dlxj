@@ -81,14 +81,12 @@ layui.use(['layer','jquery','form'],function(){
     function start_click(type) {
         console.log(type);
         console.log(type.overlay.z.title);
-        $("input[name = poleByStartpoleNo]").val(type.overlay.z.title);
+        $("input[name = startNo]").val(type.overlay.z.title);
         var s1 = type.overlay.Iz.lng;
         var s2 = type.overlay.Iz.lat;
-        console.log(s1,s2);
         PoleList.push(new BMap.Point(s1,s2));
         $("startPole").val(s1+','+s2);
         startPole = s1+','+s2;
-        layer.msg( startPole);
         map.removeEventListener("click", start_click);
     }
     //设置终止塔杆位置
@@ -99,13 +97,14 @@ layui.use(['layer','jquery','form'],function(){
     });
     function end_click(type) {
         console.log(type.overlay.z.title);
-        $("input[name = poleByEndpoleNo]").val(type.overlay.z.title);
+        $("input[name = endNo]").val(type.overlay.z.title);
         var s1 = type.overlay.Iz.lng;
         var s2 = type.overlay.Iz.lat;
         PoleList.push(new BMap.Point(s1,s2));
         $("endPole").val(s1+','+s2);
         endPole = s1+','+s2;
         add_drawRouteLine(new Array());
+        map.removeEventListener("click", end_click);
     };
     //画线
     var polyline;
@@ -123,9 +122,13 @@ layui.use(['layer','jquery','form'],function(){
         PoleList[PoleList.length-1]=end;
         polyline = new BMap.Polyline(PoleList,{strokeColor:"red", strokeWeight:6, strokeOpacity:0.5});
         map.addOverlay(polyline);//添加路线
-        map.removeEventListener("click", end_click);
-        var gl = parseInt(map.getDistance(PoleList[0],PoleList[1]).toFixed(3)/1000);
-        $("input[name = arroundlength]").val(gl+'公里');
+        console.log(PoleList);
+        var sum =0;
+        for (var i = 0; i < PoleList.length-1; i++) {
+            sum += parseInt(map.getDistance(PoleList[i],PoleList[i+1]).toFixed(3)/1000);
+        }
+        $("#towercount").val(PoleList.length);
+        $("input[name = arroundlength]").val(sum+'公里');
     }
 
     $("#poleNoList").click(function(){
@@ -149,7 +152,25 @@ layui.use(['layer','jquery','form'],function(){
     }
 
     form.on('submit(formDemo)',function(data){
-        layer.msg(JSON.stringify(data.field));
+        console.log(data.field);
+        $.ajax({
+            type: "POST",
+            data: data.field,
+            url: "/circ/addcirc",
+            success: function (strData) {
+                var data;
+                if(typeof(strData) == "string"){
+                    data = JSON.parse(strData); //部分用户解析出来的是字符串，转换一下
+                }else{
+                    data = strData;
+                }
+                if(data.code==500){
+                    layer.msg('添加失败');
+                }else {
+                    layer.msg('添加成功');
+                }
+            }
+        });
         return false;
     });
 });

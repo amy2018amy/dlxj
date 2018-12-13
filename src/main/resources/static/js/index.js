@@ -107,6 +107,7 @@ layui.use(['bodyTab','form','element','layer','jquery'],function(){
         window.sessionStorage.removeItem("menu");
         window.sessionStorage.removeItem("curmenu");
     }
+
 })
 
 //打开新窗口

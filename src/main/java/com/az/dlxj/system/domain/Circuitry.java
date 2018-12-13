@@ -11,7 +11,14 @@ public class Circuitry  implements java.io.Serializable {
 
 
     // Fields    
-
+//"id":"1234",
+// "name":"234",
+// "voltage":"234",
+// "startNo":"100011",
+// "endNo":"10013",
+// "jihe":"10012 ",
+// "arroundlength":"136公里",
+// "towercount":"3"
      private String id;
      private Pole poleByEndpoleNo;
      private Pole poleByStartpoleNo;
@@ -23,8 +30,34 @@ public class Circuitry  implements java.io.Serializable {
      private Integer state;
      private String remark;
      private List<CircuitryPole> allPole;
+     private Integer startNo;
+     private Integer endNo;
+     private String jihe;
 
-    // Constructors
+    public String getJihe() {
+        return jihe;
+    }
+
+    public void setJihe(String jihe) {
+        this.jihe = jihe;
+    }
+
+    public Integer getStartNo() {
+        return startNo;
+    }
+
+    public void setStartNo(Integer startNo) {
+        this.startNo = startNo;
+    }
+
+    public Integer getEndNo() {
+        return endNo;
+    }
+
+    public void setEndNo(Integer endNo) {
+        this.endNo = endNo;
+    }
+// Constructors
 
     /** default constructor */
     public Circuitry() {
@@ -51,89 +84,85 @@ public class Circuitry  implements java.io.Serializable {
         this.remark = remark;
     }
 
-   
-    // Property accessors
-
     public String getId() {
-        return this.id;
+        return id;
     }
-    
+
     public void setId(String id) {
         this.id = id;
     }
 
     public Pole getPoleByEndpoleNo() {
-        return this.poleByEndpoleNo;
+        return poleByEndpoleNo;
     }
-    
+
     public void setPoleByEndpoleNo(Pole poleByEndpoleNo) {
         this.poleByEndpoleNo = poleByEndpoleNo;
     }
 
     public Pole getPoleByStartpoleNo() {
-        return this.poleByStartpoleNo;
+        return poleByStartpoleNo;
     }
-    
+
     public void setPoleByStartpoleNo(Pole poleByStartpoleNo) {
         this.poleByStartpoleNo = poleByStartpoleNo;
     }
 
     public String getName() {
-        return this.name;
+        return name;
     }
-    
+
     public void setName(String name) {
         this.name = name;
     }
 
     public String getLength() {
-        return this.length;
+        return length;
     }
-    
+
     public void setLength(String length) {
         this.length = length;
     }
 
     public String getArroundlength() {
-        return this.arroundlength;
+        return arroundlength;
     }
-    
+
     public void setArroundlength(String arroundlength) {
         this.arroundlength = arroundlength;
     }
 
     public Integer getTowercount() {
-        return this.towercount;
+        return towercount;
     }
-    
+
     public void setTowercount(Integer towercount) {
         this.towercount = towercount;
     }
 
     public Integer getVoltage() {
-        return this.voltage;
+        return voltage;
     }
-    
+
     public void setVoltage(Integer voltage) {
         this.voltage = voltage;
     }
 
     public Integer getState() {
-        return this.state;
+        return state;
     }
-    
+
     public void setState(Integer state) {
         this.state = state;
     }
 
     public String getRemark() {
-        return this.remark;
+        return remark;
     }
-    
+
     public void setRemark(String remark) {
         this.remark = remark;
     }
-
 
     public List<CircuitryPole> getAllPole() {
         return allPole;

@@ -41,13 +41,13 @@
                         <button type="button" class="layui-btn layui-btn-radius" id="StartpoleNo"  >设置起始塔杆</button>
                     </div>
                     <div class="layui-input-inline">
-                        <input type="text" name="poleByStartpoleNo" required lay-verify="required" disabled="disabled" placeholder="起始塔杆"  autocomplete="off" class="layui-input">
+                        <input type="text" name="startNo" required lay-verify="required" disabled="disabled" placeholder="起始塔杆"  autocomplete="off" class="layui-input">
                     </div>
                     <div class="layui-input-inline">
                         <button type="button" class="layui-btn layui-btn-radius" id="EndpoleNo">设置终止塔杆</button>
                     </div>
                     <div class="layui-input-inline">
-                        <input type="text" name="poleByEndpoleNo" required lay-verify="required" disabled="disabled"  placeholder="终止塔杆"  autocomplete="off" class="layui-input">
+                        <input type="text" name="endNo" required lay-verify="required" disabled="disabled"  placeholder="终止塔杆"  autocomplete="off" class="layui-input">
                     </div>
             </div>
             <div class="layui-form-item">
@@ -67,8 +67,7 @@
                     <button type="reset" class="layui-btn layui-btn-radius" lay-submit lay-filter="formDemo">添加路线</button>
                 </div>
             </div>
-            <input type="hidden" name="startPole" id="startPole" value="" />
-            <input type="hidden" name="endPole" id="endPole" value=""/>
+            <input type="hidden" name="towercount" id="towercount" value="" />
         </form>
     </div>
     <script type="text/javascript" src="" th:src="@{/page/addCirc.js}"></script>

@@ -11,5 +11,46 @@
     <select id="poleById" resultType="com.az.dlxj.system.domain.Pole">
         SELECT * FROM Pole WHERE id = #{id}
     </select>
+    <insert id="addcirc">
+
+        INSERT INTO `circuitry` (
+            `id`,
+            `name`,
+            `length`,
+            `arroundlength`,
+            `towercount`,
+            `voltage`,
+            `startpoleNo`,
+            `endpoleNo`,
+            `state`,
+            `remark`
+        )
+        VALUES
+        (
+            #{id},
+            #{name},
+            #{length},
+            #{arroundlength},
+            #{towercount},
+            #{voltage},
+            #{startNo},
+            #{endNo},
+            #{state},
+            #{remark}
+        )
+
+
+    </insert>
+    <insert id="addCircuitryPole">
+        INSERT INTO `circuitry_pole` (`pid`, `cid`, `position`)
+        VALUES
+            (#{num}, #{id}, '1')
+    </insert>
+    <delete id="delCirc">
+        DELETE FROM `circuitry` WHERE `id` = #{circId}
+    </delete>
+    <delete id="delCircPole">
+        DELETE FROM `circuitry_pole` WHERE `cid` = #{circId}
+    </delete>
 
 </mapper>
