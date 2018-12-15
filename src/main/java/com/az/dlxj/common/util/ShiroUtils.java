@@ -16,14 +16,11 @@ public class ShiroUtils {
     private static SessionDAO sessionDAO;
 
     public static Subject getSubjct() {
-//        return SecurityUtils.getSubject();
         Subject subject = SecurityUtils.getSubject();
-        System.out.println("subject = " + subject);
         return subject;
     }
     public static User getUser() {
         Object obj = getSubjct().getPrincipal();
-        System.out.println("obj = " + obj);
         return (User)obj;
     }
     public static Long getUserId() {

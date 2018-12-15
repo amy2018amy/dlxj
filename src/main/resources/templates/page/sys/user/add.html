@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>文章列表--layui后台管理模板 2.0</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="icon" th:href="@{/favicon.ico}" href="../../favicon.ico">
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}" href="../../layui/css/layui.css" media="all" />
+    <link rel="stylesheet" th:href="@{/css/public.css}" href="../../css/public.css" media="all" />
+</head>
+<body class="childrenBody">
+    <form class="layui-form" style="width:80%;">
+        <div class="layui-form-item layui-row layui-col-xs12">
+            <label class="layui-form-label">登录名</label>
+            <div class="layui-input-block">
+                <input name="username" type="text" class="layui-input userName" lay-verify="required" placeholder="请输入登录名">
+            </div>
+        </div>
+        <div class="layui-form-item layui-row layui-col-xs12">
+            <label class="layui-form-label">邮箱</label>
+            <div class="layui-input-block">
+                <input name="email" type="text" class="layui-input userEmail" lay-verify="email" placeholder="请输入邮箱">
+            </div>
+        </div>
+        <div class="layui-row">
+            <div class="magb15 layui-col-md4 layui-col-xs12">
+                <label class="layui-form-label">性别</label>
+                <div class="layui-input-block userSex">
+                    <input type="radio" name="sex" value="1" title="男" checked>
+                    <input type="radio" name="sex" value="0" title="女">
+                    <input type="radio" name="sex" value="2" title="保密">
+                </div>
+            </div>
+            <div class="magb15 layui-col-md4 layui-col-xs12">
+                <label class="layui-form-label">角色</label>
+                <div class="layui-input-block">
+                    <select name="rid" class="roleVal" lay-filter="rid"></select>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item layui-row layui-col-xs12">
+            <div class="layui-input-block">
+                <button class="layui-btn layui-btn-sm" lay-submit="" lay-filter="addUser">立即添加</button>
+                <button type="reset" class="layui-btn layui-btn-sm layui-btn-primary">取消</button>
+            </div>
+        </div>
+    </form>
+    <script th:inline="javascript"> var ctx = [[@{/}]] ; </script>
+    <!-- 全局js -->
+    <script type="text/javascript" th:src="@{/webjars/jquery/3.3.1-1/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/az/js/ajaxUtil.js}"></script>
+
+    <script type="text/javascript" th:src="@{/layui/layui.js}" src="layui/layui.js"></script>
+    <!--时间格式化-->
+    <script th:src="@{/az/js/AzDateFormat.js}" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" th:src="@{/page/user/add.js}"></script>
+
+</body>
+</html>

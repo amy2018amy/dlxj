@@ -12,9 +12,12 @@ import java.util.Set;
 
 public class User  implements Serializable {
     private static final long serialVersionUID = -1373760761780840081L;
+
+    // 角色
+    private Integer rid;
     // 昵称
     private String nickName;
-    // 登录名
+    // 头像
     private String icon;
     // 用户状态：0：创建未认证，1：正常，2：用户被锁定
     private Integer state;
@@ -245,13 +248,13 @@ public class User  implements Serializable {
 	public void setWaitCount(Integer waitCount) {
 		this.waitCount = waitCount;
 	}
-   
 
 
+    public Integer getRid() {
+        return rid;
+    }
 
-
-
-
-
-
+    public void setRid(Integer rid) {
+        this.rid = rid;
+    }
 }

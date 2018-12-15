@@ -20,4 +20,10 @@ public interface UserDao extends BaseDao<User> {
 
     @Select("select * from user")
     public List<User> getAll();
+
+    @Select("SELECT COUNT(1) FROM `user`")
+    public Long getPageDataCount();
+
+
+
 }

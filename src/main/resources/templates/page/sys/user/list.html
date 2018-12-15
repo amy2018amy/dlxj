@@ -1,10 +1,69 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>用户列表</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="icon" th:href="@{/favicon.ico}" href="../../favicon.ico">
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}" href="../../layui/css/layui.css" media="all" />
+    <link rel="stylesheet" th:href="@{/css/public.css}" href="../../css/public.css" media="all" />
 </head>
-<body>
+<body class="childrenBody">
+    <form class="layui-form">
+        <blockquote class="layui-elem-quote quoteBox">
+            <form class="layui-form">
+                <div class="layui-inline">
+                    <div class="layui-input-inline">
+                        <select name="rid" class="roleVal"></select>
+                    </div>
+                    <div class="layui-input-inline">
+                        <input name="username" type="text" class="layui-input usernameVal" placeholder="请输入搜索的用户名" />
+                    </div>
+                    <a class="layui-btn search_btn" data-type="reload">搜索</a>
+                </div>
+                <div class="layui-inline">
+                    <a class="layui-btn layui-btn-normal addNews_btn">添加用户</a>
+                </div>
+                <div class="layui-inline">
+                    <a class="layui-btn layui-btn-danger layui-btn-normal delAll_btn">批量删除</a>
+                </div>
+            </form>
+        </blockquote>
+        <table id="userList" lay-filter="userList"></table>
 
+        <!--审核状态-->
+        <script type="text/html" id="sexS">
+            {{#  if(d.sex == "1"){ }}
+            <span class="layui-red">男</span>
+            {{#  } else if(d.sex == "0"){ }}
+            <span class="layui-blue">女</span>
+            {{#  } else { }}
+             保密
+            {{#  }}}
+        </script>
+
+
+        <!--操作-->
+        <script type="text/html" id="userListBar">
+            <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+            <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>
+            <a class="layui-btn layui-btn-xs layui-btn-primary" lay-event="look">预览</a>
+        </script>
+    </form>
+
+    <script th:inline="javascript"> var ctx = [[@{/}]] ; </script>
+    <!-- 全局js -->
+    <script type="text/javascript" th:src="@{/webjars/jquery/3.3.1-1/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/az/js/ajaxUtil.js}"></script>
+
+    <script type="text/javascript" th:src="@{/layui/layui.js}" src="layui/layui.js"></script>
+    <!--时间格式化-->
+    <script th:src="@{/az/js/AzDateFormat.js}" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" th:src="@{/page/user/list.js}"></script>
 </body>
 </html>
