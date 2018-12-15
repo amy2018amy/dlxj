@@ -49,6 +49,7 @@ public class MenuDOServiceImpl implements MenuDOService {
     }
 
 //    @Cacheable(value="menus",key = "'az_menus_'+#uid",unless = "#result == null or #result.size() == 0")
+    @Cacheable(cacheNames = {"main-menus"},key="'menus_'+#uid",sync=true)
     @Override
     public List<Tree<MenuDO>> listMenuTree(Integer uid) {
         List<Tree<MenuDO>> trees = new ArrayList<Tree<MenuDO>>();
